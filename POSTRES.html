@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fluffy Delights</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        header {
+            background-color: #ffebe6;
+            color: #333;
+            padding: 5px 0;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #ff4d4d;
+            padding: 10px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        nav a {
+            padding: 14px 20px;
+            margin: 0 10px;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        nav a:hover {
+            background-color: #ff6666;
+            border-radius: 5px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+        h2 {
+            text-align: center;
+            color: #ff4d4d;
+            margin-bottom: 20px;
+        }
+        p {
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        .product {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+        .product-item {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            margin: 20px;
+            padding: 20px;
+            width: calc(25% - 40px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+        .product-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+        .product-item img {
+            max-width: 100%;
+            max-height: 200px;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+        .product-item h3 {
+            color: #ff4d4d;
+            margin-bottom: 10px;
+        }
+        .product-item p {
+            font-size: 1.2em;
+            margin-bottom: 15px;
+        }
+        .product-item button {
+            padding: 10px 20px;
+            border: none;
+            background-color: #ff4d4d;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .product-item button:hover {
+            background-color: #ff6666;
+        }
+        .cart {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            max-height: 80vh;
+            overflow-y: auto;
+            display: none;
+        }
+        .cart.active {
+            display: block;
+        }
+        .cart h3 {
+            color: #ff4d4d;
+            margin-bottom: 10px;
+        }
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+            margin-bottom: 10px;
+        }
+        .cart-item img {
+            width: 50px;
+            height: auto;
+            border-radius: 5px;
+        }
+        .cart-item p {
+            margin: 0;
+        }
+        .cart-item button {
+            background-color: #ff6666;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .cart-item button:hover {
+            background-color: #ff4d4d;
+        }
+        .cart-total {
+            text-align: right;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        footer {
+            background-color: #FF4D4D;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+        }
+        .footer-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            padding: 20px;
+        }
+        .footer-section {
+            flex: 1;
+            margin: 10px;
+            min-width: 200px;
+        }
+        .footer-section h2 {
+            margin-bottom: 15px;
+            color: #ff4d4d;
+        }
+        .footer-section p, .footer-section ul, .footer-section form, .footer-section .social-media {
+            margin: 0;
+            padding: 0;
+        }
+        .footer-section ul {
+            list-style: none;
+        }
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+        .footer-section ul li a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .footer-section ul li a:hover {
+            color: #ff4d4d;
+        }
+        .footer-section form input, .footer-section form textarea {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .footer-section form button {
+            padding: 10px 20px;
+            border: none;
+            background-color: #ff4d4d;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .footer-section form button:hover {
+            background-color: #ff6666;
+        }
+        .footer-section .social-media a {
+            margin-right: 10px;
+            color: white;
+            transition: color 0.3s;
+        }
+        .footer-section .social-media a:hover {
+            color: #ff4d4d;
+        }
+        .footer-bottom {
+            text-align: center;
+            padding: 10px;
+            border-top: 1px solid #ff4d4d;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>FLUFFY DELIGHTS</h1>
+</header>
+
+<nav>
+    <a href="#inicio">Inicio</a>
+    <a href="#productos">Productos</a>
+    <a href="#contacto">Contacto</a>
+</nav>
+
+<div class="container" id="inicio">
+    <h2>Bienvenidos a Fluffy Delights</h2>
+    <p>Una tienda virtual, donde podrás descubrir gran variedad de los postres más deliciosos y frescos. "Dulce Placer en Cada Bocado"</p>
+    <p>¡Descubre el placer de lo dulce en cada bocado! Te invitamos a sumergirte en un mundo de sabores exquisitos con nuestros postres artesanales. Cada creación es una obra maestra, hecha con los ingredientes más frescos y de la mejor calidad, pensada para deleitar tu paladar y convertir cada momento en una celebración.</p>
+</div>
+
+<div class="container" id="productos">
+    <h2>Nuestros Productos</h2>
+    <div class="product">
+        <div class="product-item">
+            <img src="tarta2.jpg" alt="Tarta de Fresas">
+            <h3>Tarta de Fresas</h3>
+            <p>$15.00</p>
+            <button class="add-to-cart">Añadir al Carrito</button>
+        </div>
+        <div class="product-item">
+            <img src="brownie.jpg" alt="Brownie de Chocolate">
+            <h3>Brownie de Chocolate</h3>
+            <p>$10.00</p>
+            <button class="add-to-cart">Añadir al Carrito</button>
+        </div>
+         <div class="product-item">
+            <img src="Cheesecake.jpg" alt="Cheesecake">
+            <h3>Cheesecake</h3>
+            <p>$12.00</p>
+            <button class="add-to-cart">Añadir al Carrito</button>
+        </div>
+         <div class="product-item">
+            <img src="alfajor.jpg" alt="Alfajores">
+            <h3>Alfajores</h3>
+            <p>$5.00</p>
+            <button class="add-to-cart">Añadir al Carrito</button>
+        </div>
+        <div class="product-item">
+            <img src="tresleches.jpg" alt="tres leches">
+            <h3>Tres leches</h3>
+            <p>$8.00</p>
+            <button class="add-to-cart">Añadir al Carrito</button>
+        </div>
+        <div class="product-item">
+            <img src="lecheasada.jpg" alt="leche asada">
+            <h3>Leche asada</h3>
+            <p>$8.00</p>
+            <button class="add-to-cart">Añadir al Carrito</button>
+        </div>
+        <div class="product-item">
+            <img src="flan-cake.jpg" alt="flan-cake">
+            <h3>Chocoflan</h3>
+            <p>$10.00</p>
+            <button class="add-to-cart">Añadir al Carrito</button>
+        </div>
+        <div class="product-item">
+            <img src="chocoteja.jpg" alt="Chocotejas">
+            <h3>Chocotejas</h3>
+            <p>$5.00</p>
+            <button class="add-to-cart">Añadir al Carrito</button>
+        </div>
+
+    </div>
+</div>
+
+<div class="cart" id="cart">
+    <h3>Carrito de Compras</h3>
+    <div id="cart-items"></div>
+    <div class="cart-total">Total: $<span id="cart-total-value">0.00</span></div>
+</div>
+<div class="container" id="contacto">
+    <h2>Contacto</h2>
+    <p>¡Queremos saber de ti! Si tienes alguna pregunta, comentario o simplemente deseas conocer más sobre nuestros deliciosos postres, no dudes en ponerte en contacto con nosotros. Estamos aquí para ayudarte y hacer que tu experiencia sea lo más dulce posible.</p>
+    <p>Puedes comunicarte con nosotros a través del formulario de contacto en esta página, enviarnos un correo electrónico a [tu email] o llamarnos al [tu número de teléfono]. También puedes encontrarnos en nuestras redes sociales y enviarnos un mensaje directo.</p>
+    <form>
+        <label for="name">Nombre:</label><br>
+        <input type="text" id="name" name="name"><br><br>
+        <label for="email">Correo Electrónico:</label><br>
+        <input type="email" id="email" name="email"><br><br>
+        <label for="message">Mensaje:</label><br>
+        <textarea id="message" name="message" rows="4" cols="50"></textarea><br><br>
+        <input type="submit" value="Enviar">
+    </form>
+</div>
+
+<footer>
+    
+        &copy; 2024 Fluffy Delights. Todos los derechos reservados.
+</footer>
+
+<script>
+    // Selección de elementos del DOM
+    const addToCartButtons = document.querySelectorAll('.add-to-cart');
+    const cartItemsContainer = document.getElementById('cart-items');
+    const cartTotal = document.getElementById('cart-total-value');
+    const cart = document.getElementById('cart');
+
+    // Función para obtener los productos del localStorage o un array vacío si no hay ninguno
+    function getCartItems() {
+        return JSON.parse(localStorage.getItem('cart')) || [];
+    }
+
+    // Función para actualizar los items del carrito en el localStorage
+    function updateCartItems(cartItems) {
+        localStorage.setItem('cart', JSON.stringify(cartItems));
+        updateCartDisplay();
+    }
+
+    // Función para calcular y actualizar el total del carrito
+    function updateCartTotal(cartItems) {
+        const total = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0).toFixed(2);
+        cartTotal.textContent = total;
+    }
+
+    // Función para actualizar la visualización del carrito
+    function updateCartDisplay() {
+        const cartItems = getCartItems();
+        cartItemsContainer.innerHTML = '';
+        cartItems.forEach(item => {
+            const cartItemElement = document.createElement('div');
+            cartItemElement.classList.add('cart-item');
+            cartItemElement.innerHTML = `
+                <img src="${item.image}" alt="${item.name}">
+                <p>${item.name} - $${item.price.toFixed(2)} x ${item.quantity}</p>
+                <button class="remove-from-cart" data-id="${item.id}">Eliminar</button>
+            `;
+            cartItemsContainer.appendChild(cartItemElement);
+        });
+        updateCartTotal(cartItems);
+
+        // Mostrar o ocultar el carrito según si hay items o no
+        if (cartItems.length > 0) {
+            cart.classList.add('active');
+        } else {
+            cart.classList.remove('active');
+        }
+    }
+
+    // Event listener para añadir productos al carrito
+    addToCartButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const productItem = button.closest('.product-item');
+            const productImage = productItem.querySelector('img').src;
+            const productName = productItem.querySelector('h3').textContent;
+            const productPrice = parseFloat(productItem.querySelector('p').textContent.replace('$', ''));
+
+            const cartItems = getCartItems();
+            const existingItem = cartItems.find(item => item.name === productName);
+
+            if (existingItem) {
+                existingItem.quantity++;
+            } else {
+                cartItems.push({
+                    id: cartItems.length + 1,
+                    name: productName,
+                    price: productPrice,
+                    image: productImage,
+                    quantity: 1
+                });
+            }
+
+            updateCartItems(cartItems);
+        });
+    });
+
+    // Event listener para eliminar productos del carrito
+    cartItemsContainer.addEventListener('click', (event) => {
+        if (event.target.classList.contains('remove-from-cart')) {
+            const itemId = parseInt(event.target.getAttribute('data-id'));
+            const cartItems = getCartItems().filter(item => item.id !== itemId);
+            updateCartItems(cartItems);
+        }
+    });
+
+    // Actualizar la visualización del carrito al cargar la página
+    document.addEventListener('DOMContentLoaded', () => {
+        updateCartDisplay();
+    });
+</script>
+
+</body>
+</html>
